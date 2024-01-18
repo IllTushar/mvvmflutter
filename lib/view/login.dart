@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfirebase/utils/routes/RoutesName.dart';
+import 'package:flutterfirebase/res/components/round_button.dart';
 import 'package:flutterfirebase/utils/utilsfiles.dart';
-
-import 'home.dart';
 
 class Login extends StatefulWidget {
   Login() {}
@@ -36,8 +34,9 @@ class _LoginState extends State<Login> {
                 labelText: "Email", // Changed label to labelText
                 prefixIcon: Icon(Icons.email),
               ),
-              onFieldSubmitted: (value) => UtilsFile.focusNodes(
-                  context, _emailFocusNode, _passwordFocusNode),
+              onFieldSubmitted: (value) =>
+                  UtilsFile.focusNodes(
+                      context, _emailFocusNode, _passwordFocusNode),
             ),
             ValueListenableBuilder(
               valueListenable: _notifierPassword,
@@ -53,8 +52,7 @@ class _LoginState extends State<Login> {
                     prefixIcon: Icon(Icons.vpn_key),
                     suffixIcon: InkWell(
                       onTap: () {
-                        _notifierPassword.value =
-                        !_notifierPassword.value;
+                        _notifierPassword.value = !_notifierPassword.value;
                       },
                       child: Icon(
                         isPasswordVisible
@@ -66,9 +64,20 @@ class _LoginState extends State<Login> {
                 );
               },
             ),
+            RoundButton(message: "Login", onTap: submit)
           ],
         ),
       ),
     );
+  }
+
+  void submit() {
+    if (_email.text.isEmpty) {
+      UtilsFile.toastForFailedMessage(context, "Email is empty!!");
+    } else if (_password.text.isEmpty) {
+      UtilsFile.toastForFailedMessage(context, "Password is empty");
+    } else {
+      UtilsFile.showSuccessFlushbar(context, "Login","Login Successful");
+    }
   }
 }
